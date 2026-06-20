@@ -55,6 +55,11 @@ nav a.active {
     display: flex;
     gap: 10px;
 }
+@media(max-width:600px){
+    #searchForm{
+        flex-direction: column;
+    }
+}
 
 #searchInput {
     flex: 1;
