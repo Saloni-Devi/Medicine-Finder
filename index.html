@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Finder 2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Medicine Finder 💊</h1>
+            <p>Search real medicine data from OpenFDA</p>
+            <nav>
+                <a href="index.html" class="active">Home</a>
+                <a href="watchlist.html">Watchlist</a>
+            </nav>
+        </header>
+
+        <div class="search-box">
+            <form id="searchForm">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Enter medicine name e.g. Paracetamol" 
+                >
+                <button type="submit">Search</button>
+            </form>
+            <p id="errorMsg" class="error"></p>
+        </div>
+
+        <div id="loader" class="loader" style="display: none;">Loading...</div>
+        
+        <div id="results" class="results-grid"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

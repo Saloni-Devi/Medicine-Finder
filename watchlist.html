@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Watchlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Watchlist 📋</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="watchlist.html" class="active">Watchlist</a>
+            </nav>
+        </header>
+        <div id="watchlistResults" class="results-grid"></div>
+    </div>
+
+    <script>
+        function loadWatchlist() {
+            const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+            const container = document.getElementById('watchlistResults');
+            
+            if (watchlist.length === 0) {
+                container.innerHTML = '<p class="no-result">Your watchlist is empty. Save medicines from Home page.</p>';
+                return;
+            }
+
+            container.innerHTML = watchlist.map(med => `
+                <div class="card">
+                    <h3>${med.openfda?.brand_name?.[0] || 'N/A'}</h3>
+                    <p><strong>Generic:</strong> ${med.openfda?.generic_name?.[0] || 'N/A'}</p>
+                    <p><strong>Purpose:</strong> ${med.purpose?.[0] || 'N/A'}</p>
+                    <button onclick="removeFromWatchlist('${med.id}')" class="delete-btn">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFromWatchlist(id) {
+            let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+            watchlist = watchlist.filter(item => item.id !== id);
+            localStorage.setItem('watchlist', JSON.stringify(watchlist));
+            loadWatchlist();
+        }
+
+        loadWatchlist();
+    </script>
+</body>
+</html>
