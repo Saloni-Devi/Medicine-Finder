@@ -23,7 +23,7 @@ searchForm.addEventListener('submit', async (e) => {
     const data = await response.json();
     displayResults(data.results);
   } catch (error) {
-    resultsDiv.innerHTML = `<p class="no-result">No medicines found for "${query}". Try: Paracetamol, Ibuprofen</p>`;
+    resultsDiv.innerHTML = `<p class="no-result">No medicines found for "${query}". Try: Cetirizine, Ibuprofen</p>`;
   } finally {
     loader.style.display = 'none';
   }
