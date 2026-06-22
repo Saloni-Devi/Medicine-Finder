@@ -204,3 +204,6 @@ body {
   margin-bottom: 20px;
   font-weight: bold;
 }
+#error{
+    display: none;
+}
