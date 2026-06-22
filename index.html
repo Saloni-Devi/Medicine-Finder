@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine Finder 2.0</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Finder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Medicine Finder 💊</h1>
-            <p>Search real medicine data from OpenFDA</p>
-            <nav>
-                <a href="index.html" class="active">Home</a>
-                <a href="watchlist.html">Watchlist</a>
-            </nav>
-        </header>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">Medicine Finder 💊</h1>
+      <p class="subtitle">Search real medicine data from OpenFDA</p>
+      <nav class="tabs">
+        <a href="index.html" class="tab active">Home</a>
+        <a href="watchlist.html" class="tab">Watchlist</a>
+      </nav>
+    </header>
 
-        <div class="search-box">
-            <form id="searchForm">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="Enter medicine name e.g. Paracetamol" 
-                >
-                <button type="submit">Search</button>
-            </form>
-            <p id="errorMsg" class="error"></p>
-        </div>
+    <main>
+      <div class="search-card">
+        <form id="searchForm">
+          <input type="text" id="searchInput" placeholder="Enter medicine name e.g. Paracetamol" required>
+          <button type="submit" class="btn-search">Search</button>
+        </form>
+      </div>
 
-        <div id="loader" class="loader" style="display: none;">Loading...</div>
-        
-        <div id="results" class="results-grid"></div>
-    </div>
+      <div id="loader" class="loader" style="display: none;">Searching...</div>
+      <div id="results" class="results-grid"></div>
+      <div id="error" class="error"></div>
+    </main>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
