@@ -1,51 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Watchlist</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Watchlist - Medicine Finder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>My Watchlist 📋</h1>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="watchlist.html" class="active">Watchlist</a>
-            </nav>
-        </header>
-        <div id="watchlistResults" class="results-grid"></div>
-    </div>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">My Watchlist 📋</h1>
+      <nav class="tabs">
+        <a href="index.html" class="tab">Home</a>
+        <a href="watchlist.html" class="tab active">Watchlist</a>
+      </nav>
+    </header>
 
-    <script>
-        function loadWatchlist() {
-            const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-            const container = document.getElementById('watchlistResults');
-            
-            if (watchlist.length === 0) {
-                container.innerHTML = '<p class="no-result">Your watchlist is empty. Save medicines from Home page.</p>';
-                return;
-            }
+    <main>
+      <a href="index.html" class="back-btn">← Back to Search</a>
+      <div id="watchlistResults" class="results-grid"></div>
+    </main>
+  </div>
 
-            container.innerHTML = watchlist.map(med => `
-                <div class="card">
-                    <h3>${med.openfda?.brand_name?.[0] || 'N/A'}</h3>
-                    <p><strong>Generic:</strong> ${med.openfda?.generic_name?.[0] || 'N/A'}</p>
-                    <p><strong>Purpose:</strong> ${med.purpose?.[0] || 'N/A'}</p>
-                    <button onclick="removeFromWatchlist('${med.id}')" class="delete-btn">Remove</button>
-                </div>
-            `).join('');
-        }
+  <script>
+    function loadWatchlist() {
+      const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+      const container = document.getElementById('watchlistResults');
 
-        function removeFromWatchlist(id) {
-            let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-            watchlist = watchlist.filter(item => item.id !== id);
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
-            loadWatchlist();
-        }
+      if (watchlist.length === 0) {
+        container.innerHTML = '<p class="no-result">Your watchlist is empty. Save medicines from Home page.</p>';
+        return;
+      }
 
-        loadWatchlist();
-    </script>
+      container.innerHTML = '';
+      watchlist.forEach(medicine => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const brandName = medicine.openfda?.brand_name?.[0] || 'N/A';
+        const genericName = medicine.openfda?.generic_name?.[0] || 'N/A';
+        const purpose = medicine.purpose?.[0] || 'Not specified';
+
+        card.innerHTML = `
+          <h3>${brandName}</h3>
+          <p><strong>Generic:</strong> ${genericName}</p>
+          <p><strong>Purpose:</strong> ${purpose}</p>
+          <div class="card-actions">
+            <button class="btn-details" onclick="showDetails('${medicine.id}')">View Details</button>
+            <button class="btn-remove" onclick="removeFromWatchlist('${medicine.id}')">Remove</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function removeFromWatchlist(id) {
+      let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+      watchlist = watchlist.filter(item => item.id!== id);
+      localStorage.setItem('watchlist', JSON.stringify(watchlist));
+      loadWatchlist();
+    }
+
+    function showDetails(medicineId) {
+      window.location.href = `details.html?id=${medicineId}`;
+    }
+
+    loadWatchlist();
+  </script>
 </body>
 </html>
