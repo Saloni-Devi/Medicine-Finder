@@ -1,39 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine Details</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Details</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Medicine Details 💊</h1>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="watchlist.html">Watchlist</a>
-            </nav>
-        </header>
-        <div id="detailContent" class="detail-card"></div>
-    </div>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">Medicine Details 💊</h1>
+      <nav class="tabs">
+        <a href="index.html" class="tab">Home</a>
+        <a href="watchlist.html" class="tab">Watchlist</a>
+      </nav>
+    </header>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const med = JSON.parse(localStorage.getItem(`med_${id}`));
-        
-        if (med) {
-            document.getElementById('detailContent').innerHTML = `
-                <h2>${med.openfda?.brand_name?.[0] || 'N/A'}</h2>
-                <p><strong>Generic Name:</strong> ${med.openfda?.generic_name?.[0] || 'N/A'}</p>
-                <p><strong>Purpose:</strong> ${med.purpose?.[0] || 'N/A'}</p>
-                <p><strong>Usage:</strong> ${med.indications_and_usage?.[0] || 'N/A'}</p>
-                <p><strong>Warnings:</strong> ${med.warnings?.[0] || 'N/A'}</p>
-                <p><strong>Dosage:</strong> ${med.dosage_and_administration?.[0] || 'N/A'}</p>
-                <button onclick="history.back()">Back</button>
-            `;
-        }
-    </script>
+    <main>
+      <a href="index.html" class="back-btn">← Back to Search</a>
+      <div class="card" id="detailsCard">
+        <h3 id="medName">Loading...</h3>
+        <p><strong>Generic Name:</strong> <span id="medGeneric"></span></p>
+        <p><strong>Purpose:</strong> <span id="medPurpose"></span></p>
+        <p><strong>Warnings:</strong> <span id="medWarning"></span></p>
+        <p><strong>Dosage:</strong> <span id="medDosage"></span></p>
+        <p><strong>Manufacturer:</strong> <span id="medManufacturer"></span></p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(window.location.search);
+      const medicineId = params.get('id');
+
+      let medicine = JSON.parse(localStorage.getItem(`med_${medicineId}`));
+
+      if (!medicine) {
+        const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+        medicine = watchlist.find(med => med.id === medicineId);
+      }
+
+      if (medicine) {
+        document.getElementById('medName').textContent = medicine.openfda?.brand_name?.[0] || 'N/A';
+        document.getElementById('medGeneric').textContent = medicine.openfda?.generic_name?.[0] || 'N/A';
+        document.getElementById('medPurpose').textContent = medicine.purpose?.[0] || 'Not specified';
+        document.getElementById('medWarning').textContent = medicine.warnings?.[0] || 'Not specified';
+        document.getElementById('medDosage').textContent = medicine.dosage_and_administration?.[0] || 'Not specified';
+        document.getElementById('medManufacturer').textContent = medicine.openfda?.manufacturer_name?.[0] || 'Not specified';
+      } else {
+        document.getElementById('detailsCard').innerHTML = '<h2>Medicine details not found!</h2>';
+      }
+    });
+  </script>
 </body>
 </html>
